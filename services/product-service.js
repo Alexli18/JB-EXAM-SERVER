@@ -24,7 +24,7 @@ const updateProduct = async (id, params) => {
     );
 }
 
-const isProductExist = (product) => {
+const isProductExist = async (product) => {
     const { productName } = product;
     const productExist = await Category.findOne({productName});
     if(productExist){
