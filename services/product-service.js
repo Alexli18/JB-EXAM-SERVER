@@ -13,10 +13,32 @@ const addProduct = async (product) => {
 }
 
 
+const deleteProduct = async (id) => {
+    return await Product.deleteOne({_id: id});
+}
 
+const updateProduct = async (id, params) => {
+    return await Product.updateOne(
+        {_id: id},
+        {$set: params}
+    );
+}
+
+const isProductExist = (product) => {
+    const { productName } = product;
+    const productExist = await Category.findOne({productName});
+    if(productExist){
+        return productExist
+    }else{
+        return false
+    }
+}
 
 module.exports = {
-    addProduct
+    addProduct,
+    deleteProduct,
+    updateProduct,
+    isProductExist
 }
 
 
