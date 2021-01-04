@@ -51,11 +51,11 @@ app.use(common.commonMW);
 app.use('/auth', loginController);
 app.use('/oAuth', oAuthController);
 
-//================== isValidUser MD
-app.use('/', isValid, (req ,res) => {
-    console.log(req.session);
-    res.send(req.session)
-})
+// //================== isValidUser MD
+// app.use('/', isValid, (req ,res) => {
+//     console.log(req.session);
+//     res.session = req.session;
+// })
 
 app.use('/category', isAdmin, categoryController);
 

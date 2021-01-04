@@ -5,6 +5,12 @@ const CategorySchema = require('../models/category');
 const Category = mongoose.model('Category', CategorySchema);
 
 
+const getAllCategories = async () => {
+    try{
+        return await Category.find({});
+    }catch(err){ console.log(err) }
+}
+
 const addCategory = async (category) => {
     try{
         const newCategory = new Category(category);
@@ -41,6 +47,7 @@ const isCategoryExist = async (category) => {
 }
 
 module.exports = {
+    getAllCategories,
     addCategory,
     deleteCategory,
     updateCategory,

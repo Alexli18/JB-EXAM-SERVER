@@ -2,9 +2,16 @@ const express = require('express');
 const router = express.Router();
 
 //============= CATEGORY SERVICE
-const { addCategory, deleteCategory, updateCategory, isCategoryExist } = require('../services/category-service');
+const { addCategory, deleteCategory, updateCategory, isCategoryExist, getAllCategories} = require('../services/category-service');
 
 
+//================ GET ALL CATEGORIES
+router.get('/all', async (req, res) => {
+    try{
+        const data = await getAllCategories();
+        res.send(data);
+    }catch(err){ res.sendStatus(400) }
+})
 
 //================= ADD CATEGORY
 router.post('/add', async (req, res)=>{
@@ -13,8 +20,9 @@ router.post('/add', async (req, res)=>{
         if( !isExist ){
             await addCategory(req.body);
             res.sendStatus(200); 
+        }else{
+            res.sendStatus(400);
         }
-        res.sendStatus(400);
     }catch(err){ res.sendStatus(400) }
 });
 
