@@ -4,6 +4,11 @@ const ChopingCartSchema = require('../models/chopingCart');
 
 const ChopingCart = mongoose.model('ChopingCart', ChopingCartSchema);
 
+const getAllChoppingCarts = async () => {
+    try{
+        return await ChopingCart.find({});
+    }catch(err){ console.log(err) }
+}
 
 const addChopingCart = async (cart) => {
     try{
@@ -33,6 +38,7 @@ const isCartExist = async (cart) => {
 }
 
 module.exports = {
+    getAllChoppingCarts,
     addChopingCart,
     deleteChopingCart,
     updateChopingCart,

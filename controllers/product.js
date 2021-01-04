@@ -43,9 +43,14 @@ router.post('/delete', async (req, res) => {
 //==================== UPDATE PRODUCT
 router.post('/update', async (req, res) => {
     try{
+        const product = await isProductExist(req.body);
         const { id, params } = req.body;
-        await updateProduct(id, params);
-        res.sendStatus(200);
+        if( !product ){
+            await updateProduct(id, params);
+            res.sendStatus(200);
+        }else{
+            res.sendStatus(400);
+        }
     }catch(err){ res.sendStatus(400) }
 });
 

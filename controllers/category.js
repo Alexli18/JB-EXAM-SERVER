@@ -38,9 +38,14 @@ router.post('/delete', async (req, res) => {
 //============== UPDATE CATEGORY
 router.post('/update', async (req, res) => {
     try{
+        const isExist = await isCategoryExist(req.body);
         const { id, params } = req.body;
-        await updateCategory(id, params);
-        res.sendStatus(200);
+        if( !isExist ){
+            await updateCategory(id, params);
+            res.sendStatus(200); 
+        }else{
+            res.sendStatus(400);
+        }
     }catch(err){ res.sendStatus(400) }
 });
 
