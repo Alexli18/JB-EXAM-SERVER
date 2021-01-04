@@ -7,6 +7,7 @@ const bodyParser = require('body-parser');
 const loginController = require('./controllers/auth');
 const oAuthController = require('./controllers/oAuth');
 const categoryController = require('./controllers/category');
+const productController = require('./controllers/product')
 
 const {isValid} = require('./middlewares/isUserValid');
 const {isAdmin} = require('./middlewares/isUserAdmin');
@@ -58,6 +59,7 @@ app.use('/oAuth', oAuthController);
 // })
 
 app.use('/category', isAdmin, categoryController);
+app.use('/product', isAdmin, productController);
 
 
 

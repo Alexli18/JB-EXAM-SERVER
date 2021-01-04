@@ -3,6 +3,12 @@ const ProductSchema = require('../models/product');
 
 const Product = mongoose.model('Product', ProductSchema);
 
+const getAllProducts = async () => {
+    try{
+        return await Product.find({});
+    }catch(err){ console.log(err) }
+}
+
 const addProduct = async (product) => {
     try{
         const newProduct = new Product(product);
@@ -26,7 +32,7 @@ const updateProduct = async (id, params) => {
 
 const isProductExist = async (product) => {
     const { productName } = product;
-    const productExist = await Category.findOne({productName});
+    const productExist = await Product.findOne({productName});
     if(productExist){
         return productExist
     }else{
@@ -35,6 +41,7 @@ const isProductExist = async (product) => {
 }
 
 module.exports = {
+    getAllProducts,
     addProduct,
     deleteProduct,
     updateProduct,
