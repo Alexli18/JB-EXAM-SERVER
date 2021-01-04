@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const ChoppingItemSchema = require('../models/chopingItem');
 
-const ChoppingItem = mongoose.model('User', ChoppingItemSchema);
+const ChoppingItem = mongoose.model('ChoppingItem', ChoppingItemSchema);
 
 
 const addChoppingItem = async (item) => {

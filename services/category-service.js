@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const CategorySchema = require('../models/category');
 
 
-const Category = mongoose.model('User', CategorySchema);
+const Category = mongoose.model('Category', CategorySchema);
 
 
 const addCategory = async (category) => {

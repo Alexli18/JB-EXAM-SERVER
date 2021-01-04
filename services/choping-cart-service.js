@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const ChopingCartSchema = require('../models/chopingCart');
 
 
-const ChopingCart = mongoose.model('User', ChopingCartSchema);
+const ChopingCart = mongoose.model('ChopingCart', ChopingCartSchema);
 
 
 const addChopingCart = async (cart) => {
