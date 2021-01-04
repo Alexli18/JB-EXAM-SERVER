@@ -59,7 +59,7 @@ const isProductExist = async (product) => {
 }
 
 //====================== GET PRODUCT PRICE BY ID
-const getProductPriceByID = async ({id}) => {
+const getProductPriceByID = async (id) => {
     try{
         const product = await Product.findById(id);
         return product.price;

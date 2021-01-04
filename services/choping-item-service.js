@@ -2,8 +2,14 @@ const mongoose = require('mongoose');
 const ChoppingItemSchema = require('../models/chopingItem');
 
 const ChoppingItem = mongoose.model('ChoppingItem', ChoppingItemSchema);
-const { getProductPriceByID } = require('./product-service');
+// const { getProductPriceByID } = require('./product-service');
 
+//================== GET ALL CHOPPING ITEMS
+const getAllChoppingItemsByCartID = async (cartID) => {
+    try{
+        return await ChoppingItem.find({cartID});
+    }catch(err){ console.log(err) }
+}
 
 
 //=================== ADD CHOPPING ITEM
@@ -11,9 +17,9 @@ const addChoppingItem = async (item) => {
     try{
         const isExist = await isItemExist(item);
         if( !isExist ){
-            const id = item.productID;
-            const itemPrice = await getProductPriceByID(id);
-            item.totalPrice = itemPrice;
+            // const id = item.productID;
+            // const itemPrice = await getProductPriceByID(id);
+            // item.totalPrice = itemPrice*item.count;
             const newItem = new ChoppingItem(item);
             return await newItem.save();
         }
@@ -57,6 +63,7 @@ module.exports = {
     addChoppingItem,
     deleteChoppingItem,
     updateChopingCart,
-    isItemExist
+    isItemExist,
+    getAllChoppingItemsByCartID
 }
 

@@ -7,7 +7,9 @@ const bodyParser = require('body-parser');
 const loginController = require('./controllers/auth');
 const oAuthController = require('./controllers/oAuth');
 const categoryController = require('./controllers/category');
-const productController = require('./controllers/product')
+const productController = require('./controllers/product');
+const cartController = require('./controllers/chopping-cart');
+const cartItemController = require('./controllers/chopping-item');
 
 const {isValid} = require('./middlewares/isUserValid');
 const {isAdmin} = require('./middlewares/isUserAdmin');
@@ -53,13 +55,14 @@ app.use('/auth', loginController);
 app.use('/oAuth', oAuthController);
 
 // //================== isValidUser MD
-// app.use('/', isValid, (req ,res) => {
-//     console.log(req.session);
-//     res.session = req.session;
-// })
+app.get('/', isValid, (req ,res) => {
+    res.send(req.session);
+})
 
 app.use('/category', isAdmin, categoryController);
 app.use('/product', isAdmin, productController);
+app.use('/cart', isValid, cartController);
+app.use('/cart-item', isValid, cartItemController )
 
 
 

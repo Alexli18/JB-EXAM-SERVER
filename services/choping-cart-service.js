@@ -17,8 +17,10 @@ const addChopingCart = async (cart) => {
     }catch(err){ console.log(err) }
 }
 
-const deleteChopingCart = (id) => {
-    return await ChopingCart.deleteOne({_id: id});
+const deleteChopingCart = async (id) => {
+    try{
+        return await ChopingCart.deleteOne(id);
+    }catch(err){ console.log(err) }
 }
 
 const updateChopingCart = async (id, params) => {
