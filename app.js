@@ -6,6 +6,7 @@ const app = express();
 const bodyParser = require('body-parser');
 const loginController = require('./controllers/auth');
 const oAuthController = require('./controllers/oAuth');
+const categoryController = require('./controllers/category');
 
 const {isValid} = require('./middlewares/isUserValid');
 const {isAdmin} = require('./middlewares/isUserAdmin');
@@ -51,10 +52,12 @@ app.use('/auth', loginController);
 app.use('/oAuth', oAuthController);
 
 //================== isValidUser MD
-app.get('/', isValid, (req ,res) => {
+app.use('/', isValid, (req ,res) => {
     console.log(req.session);
     res.send(req.session)
 })
+
+app.use('/category', isAdmin, categoryController);
 
 
 

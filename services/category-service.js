@@ -16,14 +16,18 @@ const addCategory = async (category) => {
 }
 
 const deleteCategory = async (id) => {
-    return await Category.deleteOne({_id: id});
+    try{
+        return await Category.deleteOne({_id: id});
+    }catch(err){ console.log(err) }
 }
 
 const updateCategory = async (id, params) => {
-    return await Category.updateOne(
-        {_id: id},
-        {$set: params}
-    );
+    try{
+        return await Category.updateOne(
+            {_id: id},
+            {$set: params}
+        );
+    }catch(err){ console.log(err) }
 }
 
 const isCategoryExist = async (category) => {

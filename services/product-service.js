@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const ProductSchema = require('../models/product');
 
-const Product = mongoose.model('User', ProductSchema);
+const Product = mongoose.model('Product', ProductSchema);
 
 const addProduct = async (product) => {
     try{
