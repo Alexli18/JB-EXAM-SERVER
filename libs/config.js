@@ -18,7 +18,7 @@ config.session = {
     "cookie": {
         "path": "/",
         "httpOnly": true,
-        "maxAge": null
+        "maxAge": 1000 * 60 * 60
     }
 };
 
@@ -26,12 +26,12 @@ config.oauth = {
     'facebookAuth' : {
         'clientID': '401816164206604',
         'clientSecret': 'ed8f2bfc4f18fb59c12d7644b6ebb3bb',
-        'callbackURL': 'http://localhost:4000/oAuth/registration/facebook/callback'
+        'callbackURL': 'http://localhost:4000/api/oAuth/registration/facebook/callback'
     },
     'googleAuth' : {
         'clientID': '1025905933738-taeg9m5kllb86rta0or8rulm0nrk7bmg.apps.googleusercontent.com',
         'clientSecret': 'hqq1cXEimIrr05Zij8RfAKxc',
-        'callbackURL': 'http://localhost:4000/oAuth/registration/google/callback'
+        'callbackURL': 'http://localhost:4000/api/oAuth/registration/google/callback'
     }
 };
 

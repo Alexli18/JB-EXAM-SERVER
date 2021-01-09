@@ -50,11 +50,9 @@ module.exports = passport => {
     //=========== LOCAL
     passport.use('local', new LocalStrategy(
         function(username, password, done) {
-          User.findOne({ email: username }, function (err, user) {
-              console.log(user)
+          User.findOne({ email: username, password }, function (err, user) {
             if (err) { return done(err); }
             if (!user) { return done(null, false); }
-            // if (!user.verifyPassword(password)) { return done(null, false); }
             return done(null, user);
           });
         }

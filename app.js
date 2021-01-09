@@ -10,24 +10,20 @@ const categoryController = require('./controllers/category');
 const productController = require('./controllers/product');
 const cartController = require('./controllers/chopping-cart');
 const cartItemController = require('./controllers/chopping-item');
+const billController = require('./controllers/bill');
+const cors = require('cors');
 
 const {isValid} = require('./middlewares/isUserValid');
 const {isAdmin} = require('./middlewares/isUserAdmin');
 
-// const LocalStrategy = require('passport-local').Strategy;
+
 
 app.use(express.static('public'));
-// app.use(cors());
+app.use(cors());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
 
-// app.use(helmet());
-// //================= Templates
-// app.set('views', __dirname + '/templates');
-// app.set('view engine', 'ejs');
-// app.set('view options', {compileDebug: false, self: true, cache: true});
-// app.use(express.static(path.join(__dirname, 'public')));
 
 //================= Session
 const sessionStore = require('./libs/sessionStore');
@@ -51,18 +47,16 @@ app.use(common.commonMW);
 
 
 //================= Login
-app.use('/auth', loginController);
-app.use('/oAuth', oAuthController);
+app.use('/api/auth', loginController);
+app.use('/api/oAuth', oAuthController);
 
-// //================== isValidUser MD
-app.get('/', isValid, (req ,res) => {
-    res.send(req.session);
-})
 
-app.use('/category', isAdmin, categoryController);
-app.use('/product', isAdmin, productController);
-app.use('/cart', isValid, cartController);
-app.use('/cart-item', isValid, cartItemController )
+
+app.use('/api/category', isValid, categoryController);
+app.use('/api/product', isValid, productController);
+app.use('/api/cart', isValid, cartController);
+app.use('/api/cart-item', isValid, cartItemController );
+app.use('/api/bill', isValid, billController );
 
 
 

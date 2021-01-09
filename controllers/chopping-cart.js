@@ -14,7 +14,8 @@ const {
 //======================= GET ALL CARTS 
 router.get('/all', async (req, res) => {
     try {
-        const choppingCarts = await getAllChoppingCarts();
+        // filter by user id
+        const choppingCarts = await getAllChoppingCarts(req.user);
         res.send(choppingCarts);
     } catch (err) {
         res.sendStatus(400)
@@ -27,11 +28,12 @@ router.post('/add', async (req, res) => {
         const isExist = await isCartExist(req.body);
         if(!isExist){
             await addChopingCart(req.body);
-            res.sendStatus(200);
+            const choppingCarts = await getAllChoppingCarts(req.user);
+            res.send(choppingCarts);
         }else{
-            res.sendStatus(400);
+            res.send({status: 400, err: 'user cart exist'});
         }
-    }catch(err){ res.sendStatus(400) }
+    }catch(err){ res.send({status: 400, err}) }
 });
 
 

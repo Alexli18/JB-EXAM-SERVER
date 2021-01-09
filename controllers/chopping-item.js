@@ -4,12 +4,15 @@ const router = express.Router();
 const {
     addChoppingItem,
     deleteChoppingItem,
-    updateChopingCart,
+    updateChopingItem,
     isItemExist,
-    getAllChoppingItemsByCartID
+    getAllChoppingItemsByCartID,
+    decrementItemCount
 } = require('../services/choping-item-service');
 
-router.get('/all', async (req, res) => {
+
+//======================= GET ALL CHOPPING ITEMS BY CART ID
+router.post('/all', async (req, res) => {
     try{
         const { cartID } = req.body;
         const items = await getAllChoppingItemsByCartID(cartID);
@@ -17,14 +20,27 @@ router.get('/all', async (req, res) => {
     }catch(err){ res.sendStatus(400) }
 });
 
+
+//====================== ADD CHOPPING ITEM
 router.post('/add', async (req, res) => {
     try{
+        const { cartID } = req.body;
         await addChoppingItem(req.body);
-        res.sendStatus(200);
-    }catch(err){ res.sendStatus(400) }
+        const items = await getAllChoppingItemsByCartID(cartID);
+        res.send(items);
+    }catch(err){ res.send({status: 400, err}) }
 });
 
+router.post('/decrement', async ( req, res) => {
+    try{
+        const { cartID } = req.body;
+        await decrementItemCount(req.body);
+        const items = await getAllChoppingItemsByCartID(cartID);
+        res.send(items);
+    }catch(err){ res.send({status: 400, err}) }
+})
 
+//======================= DELETE CHOPPING ITEM
 router.post('/delete', async (req, res) => {
     try{
         const { id } = req.body;
@@ -33,11 +49,11 @@ router.post('/delete', async (req, res) => {
     }catch(err){ res.sendStatus(400) }
 });
 
-
+//=====================UPDATE CART ITEM
 router.post('/update', async (req, res) => {
     try{
         const { id, params } = req.body;
-        await updateChopingCart(id, params);
+        await updateChopingItem(id, params);
         res.sendStatus(200);
     }catch(err){ res.sendStatus(400) }
 });

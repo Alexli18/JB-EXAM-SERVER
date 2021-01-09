@@ -20,18 +20,17 @@ exports.get = async (req, res, next) => {
             userObj.socialId = req.session.passport.user.id;
             userObj.provider = req.session.passport.user.provider;
 
-            // req.session.userId = await User.findOne({socialId: userObj.socialId}, {_id: 1}).lean();
             req.session.userId = await User.findOne({socialId: userObj.socialId});
-            // req.session.userId = (req.session.userId) ? req.session.userId : (await new User(userObj).save() )._id;
             if(!req.session.userId){
                 const newUser = new User(userObj);
                 await newUser.save();
                 const savedUser = await User.findOne({ email: userObj.email});
                 const id = savedUser.id;
                 req.session.userId = id;
+                return res.send(req.session);
+                // res.redirect('/'); after deploy
             }
 
-            // res.send(req.session)
             res.redirect('/');
         } else {
             next('Authentication error');

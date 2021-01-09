@@ -13,7 +13,7 @@ const getAllProducts = async () => {
 
 
 //======================= ADD NEW PRODUCT
-const addProduct = async (product) => {
+const addProduct = async ({product}) => {
     try{
         const isExist = await isProductExist(product);
         if( !isExist ){
@@ -66,13 +66,22 @@ const getProductPriceByID = async (id) => {
     }catch(err){ console.log(err) }
 }
 
+
+const getProductsByCategoryID = async (categoryID) => {
+    try{
+        const products = await Product.find({categoryID});
+        return products;
+    }catch(err){ console.log(err) }
+}
+
 module.exports = {
     getAllProducts,
     addProduct,
     deleteProduct,
     updateProduct,
     isProductExist,
-    getProductPriceByID
+    getProductPriceByID,
+    getProductsByCategoryID
 }
 
 

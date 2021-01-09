@@ -15,6 +15,9 @@ const ChopingItem = new Schema({
     },
     totalPrice: {
         type: Number
+    },
+    productName: {
+        type: String
     }
 }, { timestamps: { createdAt: 'created_at', updatedAt: 'updated_at' } });
 

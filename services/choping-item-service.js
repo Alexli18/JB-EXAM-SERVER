@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const ChoppingItemSchema = require('../models/chopingItem');
+const { getProductPriceByID } = require('./product-service');
 
 const ChoppingItem = mongoose.model('ChoppingItem', ChoppingItemSchema);
 // const { getProductPriceByID } = require('./product-service');
@@ -22,9 +23,17 @@ const addChoppingItem = async (item) => {
             // item.totalPrice = itemPrice*item.count;
             const newItem = new ChoppingItem(item);
             return await newItem.save();
+        }else{
+            // console.log(item);
+            const currentPrice = await getProductPriceByID(item.productID);
+            const currentCount = isExist.count+1;
+            const newTotal = currentPrice*currentCount; 
+            let params = {
+                count: isExist.count+1,
+                totalPrice: newTotal
+            }
+            updateChopingItem(isExist._id, params)
         }
-        // item not exist
-        return false;
     }catch(err){  console.log(err)  }
 }
 
@@ -37,7 +46,7 @@ const deleteChoppingItem = async (id) => {
 
 
 //==================== UPDATE CART (id, params)
-const updateChopingCart = async (id, params) => {
+const updateChopingItem = async (id, params) => {
     try{
         return await ChoppingItem.updateOne(
             {_id: id},
@@ -49,7 +58,7 @@ const updateChopingCart = async (id, params) => {
 //=================== CHECK IF CART EXIST
 const isItemExist = async (item) => {
     try{
-        const itemExist = await ChoppingItem.findOne(item);
+        const itemExist = await ChoppingItem.findOne({cartID: item.cartID, productID: item.productID});
         if(itemExist){
             return itemExist
         }else{
@@ -58,12 +67,35 @@ const isItemExist = async (item) => {
     }catch(err){ console.log(err) }
 }
 
+const decrementItemCount = async (item) => {
+    try{
+        const isExist = await isItemExist(item);
+        if( !isExist ){
+            const newItem = new ChoppingItem(item);
+            return await newItem.save();
+        }else{
+            const currentPrice = await getProductPriceByID(item.productID);
+            const currentCount = isExist.count-1;
+            if(currentCount == 0){
+                return await deleteChoppingItem(item._id);
+            }
+            const newTotal = currentPrice*currentCount; 
+            let params = {
+                count: currentCount,
+                totalPrice: newTotal
+            }
+            return await updateChopingItem(isExist._id, params)
+        }
+    }catch(err){ console.log(err) }
+}
+
 
 module.exports = {
     addChoppingItem,
     deleteChoppingItem,
-    updateChopingCart,
+    updateChopingItem,
     isItemExist,
-    getAllChoppingItemsByCartID
+    getAllChoppingItemsByCartID,
+    decrementItemCount
 }
 

@@ -4,9 +4,9 @@ const ChopingCartSchema = require('../models/chopingCart');
 
 const ChopingCart = mongoose.model('ChopingCart', ChopingCartSchema);
 
-const getAllChoppingCarts = async () => {
+const getAllChoppingCarts = async (id) => {
     try{
-        return await ChopingCart.find({});
+        return await ChopingCart.find({clientID: id});
     }catch(err){ console.log(err) }
 }
 

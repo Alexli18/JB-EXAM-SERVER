@@ -8,11 +8,21 @@ const {
     deleteProduct,
     isProductExist,
     updateProduct,
-    getProductPrice
+    getProductsByCategoryID
 } = require('../services/product-service');
 const {
     route
 } = require('./auth');
+
+
+
+router.post('/productsByCategory', async (req, res) => {
+    try{
+        const { categoryID } = req.body;
+        const response = await getProductsByCategoryID(categoryID);
+        res.send(response);
+    }catch(err){ res.send({err}) }
+})
 
 //===================== GET ALL PRODUCTS
 router.get('/all', async (req, res) => {
@@ -30,7 +40,7 @@ router.post('/add', async (req, res) => {
         const product = await isProductExist(req.body);
         if (!product) {
             await addProduct(req.body);
-            res.sendStatus(200);
+            res.send({status: 200});
         } else {
             res.sendStatus(400);
         }
@@ -64,7 +74,7 @@ router.post('/update', async (req, res) => {
         } = req.body;
         if (!product) {
             await updateProduct(id, params);
-            res.sendStatus(200);
+            res.send({status: 200});
         } else {
             res.sendStatus(400);
         }

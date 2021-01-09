@@ -15,7 +15,7 @@ networks.forEach(network => {
 
     router.get(`/registration/${network}/callback`, (request, response) => {
         passport.authenticate(network, {
-            successRedirect: '/oAuth/auth-success'
+            successRedirect: '/api/oAuth/auth-success'
         })(request, response);
     });
 });
