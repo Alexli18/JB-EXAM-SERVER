@@ -6,8 +6,12 @@ const { addBill } = require('../services/bill-service');
 
 router.post('/add', isValid, async (req, res) => {
     try{
-        await addBill(req.body);
-        res.send({status: 200})
+        const shippingDateValid = await addBill(req.body)
+        if(shippingDateValid){
+            res.send({status: 200})
+        }else{
+            res.send({status: 200, shippingDateError: true})
+        }
     }catch(err){ res.send({status: 400, err}) }
 })
 

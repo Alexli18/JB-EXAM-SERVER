@@ -14,7 +14,7 @@ const billController = require('./controllers/bill');
 const cors = require('cors');
 
 const {isValid} = require('./middlewares/isUserValid');
-const {isAdmin} = require('./middlewares/isUserAdmin');
+
 
 
 

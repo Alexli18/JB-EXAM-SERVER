@@ -10,9 +10,7 @@ const {
     updateProduct,
     getProductsByCategoryID
 } = require('../services/product-service');
-const {
-    route
-} = require('./auth');
+
 
 
 
@@ -21,7 +19,7 @@ router.post('/productsByCategory', async (req, res) => {
         const { categoryID } = req.body;
         const response = await getProductsByCategoryID(categoryID);
         res.send(response);
-    }catch(err){ res.send({err}) }
+    }catch(err){ res.send({status:400, err}) }
 })
 
 //===================== GET ALL PRODUCTS
@@ -29,9 +27,7 @@ router.get('/all', async (req, res) => {
     try {
         const data = await getAllProducts();
         res.send(data);
-    } catch (err) {
-        res.sendStatus(400)
-    }
+    } catch (err) { res.send({status:400, err}) }
 });
 
 //==================== ADD NEW PRODUCT
@@ -42,11 +38,9 @@ router.post('/add', async (req, res) => {
             await addProduct(req.body);
             res.send({status: 200});
         } else {
-            res.sendStatus(400);
+            res.send({status: 400, isProductExist: true});
         }
-    } catch (err) {
-        res.sendStatus(400);
-    }
+    } catch (err){ res.send({status:400, err}) }
 });
 
 //==================== DELETE PRODUCT
@@ -57,9 +51,7 @@ router.post('/delete', async (req, res) => {
         } = req.body;
         await deleteProduct(id);
         res.sendStatus(200);
-    } catch (err) {
-        res.sendStatus(400)
-    }
+    } catch (err) { res.send({status:400, err}) }
 });
 
 
@@ -78,19 +70,9 @@ router.post('/update', async (req, res) => {
         } else {
             res.sendStatus(400);
         }
-    } catch (err) {
-        res.sendStatus(400)
-    }
+    } catch (err) { res.send({status:400, err}) }
 });
 
-// router.post('/price', async (req, res) => {
-//     try{
-//         const price = await getProductPrice(req.body);
-//         res.send({
-//             productID: '1',
-//             price 
-//         });
-//     }catch(err){ res.sendStatus(400) }
-// })
+
 
 module.exports = router;

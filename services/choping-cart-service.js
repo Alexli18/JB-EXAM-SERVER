@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 const ChopingCartSchema = require('../models/chopingCart');
-
+const {deleteAllChoppingItemsByCartID} = require('./choping-item-service');
 
 const ChopingCart = mongoose.model('ChopingCart', ChopingCartSchema);
 
@@ -19,15 +19,9 @@ const addChopingCart = async (cart) => {
 
 const deleteChopingCart = async (id) => {
     try{
+        await deleteAllChoppingItemsByCartID(id);
         return await ChopingCart.deleteOne(id);
     }catch(err){ console.log(err) }
-}
-
-const updateChopingCart = async (id, params) => {
-    return await ChopingCart.updateOne(
-        {_id: id},
-        {$set: params}
-    );
 }
 
 const isCartExist = async (cart) => {
@@ -43,6 +37,5 @@ module.exports = {
     getAllChoppingCarts,
     addChopingCart,
     deleteChopingCart,
-    updateChopingCart,
     isCartExist
 }

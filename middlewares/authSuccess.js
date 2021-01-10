@@ -10,7 +10,7 @@ exports.get = async (req, res, next) => {
     try {
         if (req.session.passport.user) {
 
-            console.log('PASSPORT USER:',req.session.passport.user);
+            // console.log('PASSPORT USER:',req.session.passport.user);
 
             const userObj = {};
             userObj.email = req.session.passport.user.emails[0].value;

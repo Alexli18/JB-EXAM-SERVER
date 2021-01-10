@@ -90,12 +90,20 @@ const decrementItemCount = async (item) => {
 }
 
 
+const deleteAllChoppingItemsByCartID = async (cartID) =>{
+    try{
+        return await ChoppingItem.deleteMany({cartID});
+    }catch(err){ console.log(err) }
+}
+
+
 module.exports = {
     addChoppingItem,
     deleteChoppingItem,
     updateChopingItem,
     isItemExist,
     getAllChoppingItemsByCartID,
-    decrementItemCount
+    decrementItemCount,
+    deleteAllChoppingItemsByCartID
 }
 

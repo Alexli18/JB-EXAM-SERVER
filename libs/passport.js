@@ -5,6 +5,7 @@ const LocalStrategy = require('passport-local').Strategy;
 const Config = require('./config');
 const mongoose = require('mongoose');
 const UserSchema = require('../models/users');
+const { createHashedPassword } = require('../utils/utils');
 
 
 const User = mongoose.model('User', UserSchema);
@@ -50,7 +51,8 @@ module.exports = passport => {
     //=========== LOCAL
     passport.use('local', new LocalStrategy(
         function(username, password, done) {
-          User.findOne({ email: username, password }, function (err, user) {
+            let hashedPass = createHashedPassword(password);
+          User.findOne({ email: username, password: hashedPass }, function (err, user) {
             if (err) { return done(err); }
             if (!user) { return done(null, false); }
             return done(null, user);

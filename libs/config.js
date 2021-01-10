@@ -35,5 +35,7 @@ config.oauth = {
     }
 };
 
+config.passwordHash = 'my_secret&@#$@!#$';
+
 
 module.exports = config;

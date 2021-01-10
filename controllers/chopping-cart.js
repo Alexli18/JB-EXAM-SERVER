@@ -6,7 +6,6 @@ const {
     getAllChoppingCarts,
     addChopingCart,
     deleteChopingCart,
-    updateChopingCart,
     isCartExist
 } = require('../services/choping-cart-service');
 
@@ -18,7 +17,7 @@ router.get('/all', async (req, res) => {
         const choppingCarts = await getAllChoppingCarts(req.user);
         res.send(choppingCarts);
     } catch (err) {
-        res.sendStatus(400)
+        res.send({status: 400, err})
     }
 });
 
@@ -44,26 +43,11 @@ router.post('/delete', async (req, res) => {
         const { id } = req.body;
         if(isExist){
             await deleteChopingCart(id);
-            res.sendStatus(200);
+            res.send({status: 200});
         }else{
-            res.sendStatus(400);
+            res.send({status: 200, cartExist: false});
         }
-    }catch(err){ res.sendStatus(400) }
-});
-
-
-//======================= UPDATE CART
-router.post('/update', async (req, res) => {
-    try{
-        const { id, params } = req.body;
-        const isExist = await isCartExist({id});
-        if(isExist){
-            await updateChopingCart(id, params);
-            res.sendStatus(200);
-        }else{
-            res.sendStatus(400);
-        }
-    }catch(err){ res.sendStatus(400) }
+    }catch(err){ res.send({status: 400, err})}
 });
 
 

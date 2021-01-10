@@ -17,7 +17,7 @@ router.post('/all', async (req, res) => {
         const { cartID } = req.body;
         const items = await getAllChoppingItemsByCartID(cartID);
         res.send(items);
-    }catch(err){ res.sendStatus(400) }
+    }catch(err){ res.send({status:400, err}) }
 });
 
 
@@ -46,7 +46,7 @@ router.post('/delete', async (req, res) => {
         const { id } = req.body;
         await deleteChoppingItem(id);
         res.sendStatus(200);
-    }catch(err){ res.sendStatus(400) }
+    }catch(err){ res.send({status:400, err}) }
 });
 
 //=====================UPDATE CART ITEM
@@ -55,7 +55,7 @@ router.post('/update', async (req, res) => {
         const { id, params } = req.body;
         await updateChopingItem(id, params);
         res.sendStatus(200);
-    }catch(err){ res.sendStatus(400) }
+    }catch(err){ res.send({status:400, err}) }
 });
 
 
